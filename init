@@ -1,0 +1,14 @@
+#!/bin/bash
+echo 2 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio2/direction
+
+echo 3 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio3/direction
+
+echo 4 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio4/direction
+echo 0 > /sys/class/gpio/gpio4/value
+
+echo 23 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio23/direction
+echo 1 > /sys/class/gpio/gpio23/value
