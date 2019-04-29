@@ -42,6 +42,29 @@ The ```ledp10.c``` source file must also be compiled with the rest of the code.
 
 #### How to proceed
 ![HUB12 Pinout](/hub12.png)
+1. Set up the panel with the power supply/SMPS.
+2. Select a SPI device to use on the Raspberry Pi. On the Raspi Header, you have
+	two options, `spidev0.0` or `spidev0.1`. 
+3. Depending on the SPI device you chose, select three GPIO pins that are available.
+	Connect these to pin 2, 4 and 10. Remember which GPIO pins you used.
+4. Enable SPI on your RaspberryPi
+	```sh
+	sudo raspi-config
+	```
+	Go to `Interfacing Options` and then SPI.
+5. Export the selected GPIO pins for program use. For eg, if GPIO 2,3 and 4 were 
+	chosen
+	```sh
+	sudo echo 2 > /sys/class/gpio/export
+	sudo echo 3 > /sys/class/gpio/export
+	sudo echo 4 > /sys/class/gpio/export
+	```
+	This will create three files of the form `/sys/class/gpio/gpio2/value`. You
+	will need these paths later.
+6. Connect `SPI_MOSI` to pin number 12 (DR) and SPI_SCLK to pin number 8 (CLK).
+
+You are now ready to display text on the LED panel. Read ahead for functional 
+documentation of the software.
 
 ### Functional Description
 
@@ -100,7 +123,7 @@ int ledp10_render(LEDP10_T panel, char *str)
 `0` on success and `-1` on failure. On success the image buffer in `panel` is filled
 with the pixel data for `str`. If the string is too long for the buffer, it is 
 truncated to the required size. This buffer can then be previewed using 
-`ledp10_preview()`.
+`ledp10_preview()`. 
 
 #### Preview Rendered Image
 ```c
